@@ -119,14 +119,16 @@ with st.form(key = 'code_to_submit'):
 if 'submit' not in st.session_state:
     st.session_state['submit'] = False
         
-if submit_button or st.session_state['submit']:         
+if submit_button or st.session_state['submit']:  
+    st.session_state['submit'] = True
     issues = sas_syntax_checker(SAScode)
+    
 
 # Print results
     for issue_type, details in issues.items():
-        print(f"\n{issue_type.upper()}:")
+        st.write(f"\n{issue_type.upper()}:")
         if details:
             for detail in details:
-                print(detail)
+                st.write(detail)
         else:
-            print("No issues found.")
+           st.write("No issues found.")
