@@ -1,4 +1,8 @@
 import re
+import sys 
+sys.dont_write_bytecode = True
+import streamlit as st
+
 st.set_page_config(
     page_title="SAS Code Syntax Checker",
     page_icon="🚩",
