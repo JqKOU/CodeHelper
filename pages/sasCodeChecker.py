@@ -28,8 +28,8 @@ def sas_syntax_checker(sas_code):
         stripped_line = line.strip()
         
         # Check for missing semicolons
-        if stripped_line and not stripped_line.endswith(";") and not stripped_line.startswith(("*", "%", "/*")):
-            issues["missing_semicolons"].append((line_number, line))
+        #if stripped_line and not stripped_line.endswith(";") and not stripped_line.startswith(("*", "%", "/*")):
+            #issues["missing_semicolons"].append((line_number, line))
         
         # Check for unmatched parentheses
         parentheses_count += line.count("(") - line.count(")")
@@ -39,7 +39,7 @@ def sas_syntax_checker(sas_code):
         quote_flag ^= line.count('"') % 2  # Toggle flag if odd number of double quotes
         
         # Check for unclosed comments
-        comment_flag ^= stripped_line.count("/*") > stripped_line.count("*/")
+        #comment_flag ^= stripped_line.count("/*") > stripped_line.count("*/")
         
         # Check for unmatched DO-END blocks
         if re.match(r'^\s*do\b', stripped_line, re.IGNORECASE):
@@ -51,26 +51,26 @@ def sas_syntax_checker(sas_code):
                 open_blocks.pop()
         
         # Track PROC or DATA steps for missing RUN or QUIT
-        if re.match(r'^\s*(proc|data)\b', stripped_line, re.IGNORECASE):
-            last_proc_or_data = line_number
-        if re.match(r'^\s*(run|quit)\b', stripped_line, re.IGNORECASE):
-            last_proc_or_data = None
+        #if re.match(r'^\s*(proc|data)\b', stripped_line, re.IGNORECASE):
+            #last_proc_or_data = line_number
+        #if re.match(r'^\s*(run|quit)\b', stripped_line, re.IGNORECASE):
+            #last_proc_or_data = None
         
         # Check for long lines
-        if len(line) > 80:
-            issues["long_lines"].append((line_number, line))
+        #if len(line) > 80:
+            #issues["long_lines"].append((line_number, line))
     
     # Final unmatched checks
     if parentheses_count != 0:
         issues["unmatched_parentheses"].append(f"Unmatched parentheses found ({parentheses_count} remaining).")
     if quote_flag:
         issues["unmatched_quotes"].append("Unmatched quotes found in the file.")
-    if comment_flag:
-        issues["unclosed_comments"].append("Unclosed comment block found in the file.")
+    #if comment_flag:
+        #issues["unclosed_comments"].append("Unclosed comment block found in the file.")
     if do_count != 0:
         issues["unmatched_do_end"].append(f"Unmatched DO-END blocks ({do_count} remaining).")
-    if last_proc_or_data is not None:
-        issues["missing_run_quit"].append(f"PROC or DATA step starting at line {last_proc_or_data} is not terminated with RUN or QUIT.")
+    #if last_proc_or_data is not None:
+        #issues["missing_run_quit"].append(f"PROC or DATA step starting at line {last_proc_or_data} is not terminated with RUN or QUIT.")
     
     return issues
 
