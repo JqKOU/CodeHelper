@@ -111,17 +111,22 @@ def sas_syntax_checker(code):
     
     return issues
 
+with st.form(key = 'code_to_submit'):
+    st.markdown("##### SAS Code")
+    SAScode = st.text_area('SAS Code', height=220)
+    submit_button = st.form_submit_button(label="💡 Get result")
 
-st.markdown("##### SAS Code")
-SAScode = st.text_area('SAS Code', height=220)
-
-issues = sas_syntax_checker(SAScode)
+if 'submit' not in st.session_state:
+    st.session_state['submit'] = False
+        
+if submit_button or st.session_state['submit']:         
+    issues = sas_syntax_checker(SAScode)
 
 # Print results
-for issue_type, details in issues.items():
-    print(f"\n{issue_type.upper()}:")
-    if details:
-        for detail in details:
-            print(detail)
-    else:
-        print("No issues found.")
+    for issue_type, details in issues.items():
+        print(f"\n{issue_type.upper()}:")
+        if details:
+            for detail in details:
+                print(detail)
+        else:
+            print("No issues found.")
